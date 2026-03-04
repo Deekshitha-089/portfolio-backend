@@ -20,20 +20,22 @@ public class SecurityConfig {
         http
             .cors(Customizer.withDefaults())
             .csrf(csrf -> csrf.disable())
+
             .authorizeHttpRequests(auth -> auth
 
-                // PUBLIC endpoints
-                .requestMatchers("/api/contact").permitAll()
+                // Public endpoint for contact form
                 .requestMatchers("/api/contacts").permitAll()
                 .requestMatchers("/api/contacts/**").permitAll()
 
-                // Everything else secured
+                // Everything else requires authentication
                 .anyRequest().authenticated()
             )
+
             .httpBasic(Customizer.withDefaults());
 
         return http.build();
     }
+
 
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
@@ -41,14 +43,20 @@ public class SecurityConfig {
         CorsConfiguration configuration = new CorsConfiguration();
 
         configuration.setAllowedOrigins(List.of(
-                "https://portfolio-frontend-eight-alpha.vercel.app"
+                "https://portfolio-frontend-eight-alpha.vercel.app",
+                "http://localhost:5173"
         ));
 
         configuration.setAllowedMethods(List.of(
-                "GET", "POST", "PUT", "DELETE", "OPTIONS"
+                "GET",
+                "POST",
+                "PUT",
+                "DELETE",
+                "OPTIONS"
         ));
 
         configuration.setAllowedHeaders(List.of("*"));
+
         configuration.setAllowCredentials(true);
 
         UrlBasedCorsConfigurationSource source =
