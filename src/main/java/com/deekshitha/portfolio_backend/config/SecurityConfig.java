@@ -21,7 +21,11 @@ public class SecurityConfig {
             .cors(Customizer.withDefaults())
             .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(auth -> auth
+                // PUBLIC endpoints
                 .requestMatchers("/api/contact").permitAll()
+                .requestMatchers("/api/contacts", "/api/contacts/**").permitAll()
+
+                // Everything else requires auth
                 .anyRequest().authenticated()
             )
             .httpBasic(Customizer.withDefaults());
