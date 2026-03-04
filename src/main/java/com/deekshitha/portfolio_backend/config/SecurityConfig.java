@@ -21,11 +21,13 @@ public class SecurityConfig {
             .cors(Customizer.withDefaults())
             .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(auth -> auth
+
                 // PUBLIC endpoints
                 .requestMatchers("/api/contact").permitAll()
-                .requestMatchers("/api/contacts", "/api/contacts/**").permitAll()
+                .requestMatchers("/api/contacts").permitAll()
+                .requestMatchers("/api/contacts/**").permitAll()
 
-                // Everything else requires auth
+                // Everything else secured
                 .anyRequest().authenticated()
             )
             .httpBasic(Customizer.withDefaults());
@@ -35,6 +37,7 @@ public class SecurityConfig {
 
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
+
         CorsConfiguration configuration = new CorsConfiguration();
 
         configuration.setAllowedOrigins(List.of(
@@ -52,6 +55,7 @@ public class SecurityConfig {
                 new UrlBasedCorsConfigurationSource();
 
         source.registerCorsConfiguration("/**", configuration);
+
         return source;
     }
 }
