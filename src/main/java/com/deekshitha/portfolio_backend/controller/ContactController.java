@@ -2,6 +2,7 @@ package com.deekshitha.portfolio_backend.controller;
 
 import com.deekshitha.portfolio_backend.model.Contact;
 import com.deekshitha.portfolio_backend.repository.ContactRepository;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,13 +20,13 @@ public class ContactController {
     }
 
     // Save contact
-    @PostMapping("/contact")
+    @PostMapping("/contacts")
     public ResponseEntity<Contact> saveContact(@RequestBody Contact contact) {
         Contact saved = contactRepository.save(contact);
         return ResponseEntity.ok(saved);
     }
 
-    // Get all contacts (admin only)
+    // Get all contacts
     @GetMapping("/contacts")
     public List<Contact> getAllContacts() {
         return contactRepository.findAll();
